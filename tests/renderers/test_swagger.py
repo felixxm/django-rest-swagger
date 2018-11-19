@@ -68,8 +68,8 @@ class TestSwaggerUIRenderer(TestCase):
         urls = {'fizz': 'buzz'}
         with patch.object(self.sut, 'get_auth_urls', return_value=urls):
             self.sut.set_context(data, self.renderer_context)
-
-        self.assertDictContainsSubset(urls, self.renderer_context)
+        self.assertIn('fizz', self.renderer_context)
+        self.assertEqual(self.renderer_context['fizz'], 'buzz')
 
     def test_set_context_sets_ui_settings(self):
         data = MagicMock()
@@ -136,8 +136,8 @@ class TestSwaggerUIRenderer(TestCase):
     def test_validator_url_none_when_set(self):
         self.swagger_settings.VALIDATOR_URL = None
         result = self.sut.get_ui_settings()
-
-        self.assertDictContainsSubset({'validatorUrl': None}, result)
+        self.assertIn('validatorUrl', result)
+        self.assertIsNone(result['validatorUrl'])
 
     def test_validator_url_not_present_when_empty_string(self):
         """

@@ -95,10 +95,9 @@ class TestGetCustomizations(TestCase):
 
     def test_security_definitions_included_when_defined(self):
         self.swagger_settings.SECURITY_DEFINITIONS = {'foo': 'bar'}
-        expected = {
-            'securityDefinitions': self.swagger_settings.SECURITY_DEFINITIONS
-        }
-        self.assertDictContainsSubset(expected, self.sut())
+        sut = self.sut()
+        self.assertIn('securityDefinitions', sut)
+        self.assertEqual(sut['securityDefinitions'], self.swagger_settings.SECURITY_DEFINITIONS)
 
     def test_security_definitions_not_present_when_none(self):
         self.swagger_settings.SECURITY_DEFINITIONS = None
